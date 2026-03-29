@@ -7,398 +7,330 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0a0f;
-  --surface: #13131a;
-  --surface2: #1c1c27;
-  --border: #2a2a3d;
-  --accent: #7c6aff;
-  --accent2: #00d4aa;
-  --text: #e8e8f0;
-  --text2: #8888aa;
-  --text3: #555570;
-  --green: #00d4aa;
-  --red: #ff5c7a;
-  --yellow: #ffd166;
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface2: #f0efe9;
+  --border: #e0dfd8;
+  --accent: #2a2a2a;
+  --green: #1a7a4a;
+  --green-bg: #e8f5ee;
+  --red: #c0392b;
+  --red-bg: #fdecea;
+  --yellow: #b7860b;
+  --yellow-bg: #fef9e7;
+  --purple: #6c3fc5;
+  --purple-bg: #f0ebff;
+  --blue: #1a5fa8;
+  --blue-bg: #e8f0fb;
+  --text: #1a1a1a;
+  --text2: #555550;
+  --text3: #999990;
   --mono: 'Space Mono', monospace;
   --sans: 'Noto Sans TC', sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  min-height: 100vh;
-  padding: 0;
-}
+body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
 
 /* Header */
 .header {
-  border-bottom: 1px solid var(--border);
-  padding: 1.25rem 1.5rem;
+  background: var(--accent);
+  padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
-  background: rgba(10,10,15,0.95);
-  backdrop-filter: blur(12px);
-  z-index: 10;
+  position: sticky; top: 0; z-index: 100;
 }
-.logo {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--accent);
-  letter-spacing: 0.1em;
-}
-.logo span { color: var(--text3); }
-.header-time {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text3);
-}
+.logo { font-family: var(--mono); font-size: 12px; color: #fff; letter-spacing: 0.12em; }
+.logo span { color: #aaa; }
+.header-right { display: flex; align-items: center; gap: 1rem; }
+.clock { font-family: var(--mono); font-size: 11px; color: #aaa; }
 
-/* Main */
-.main { padding: 1.5rem; max-width: 700px; margin: 0 auto; }
-
-/* Watchlist */
-.watchlist {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: 1.25rem;
-}
+/* Search area */
+.search-area { background: var(--accent); padding: 0 1.5rem 1.25rem; }
+.watchlist { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
 .wl-btn {
-  font-family: var(--mono);
-  font-size: 11px;
-  padding: 5px 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  color: var(--text2);
-  cursor: pointer;
-  transition: all 0.15s;
-  letter-spacing: 0.05em;
+  font-family: var(--mono); font-size: 11px; padding: 4px 10px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 3px; color: #ccc; cursor: pointer; transition: all 0.15s; letter-spacing: 0.04em;
 }
-.wl-btn:hover, .wl-btn.active {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(124,106,255,0.08);
+.wl-btn:hover, .wl-btn.active { background: rgba(255,255,255,0.2); color: #fff; border-color: rgba(255,255,255,0.5); }
+.search-row { display: flex; gap: 8px; }
+.search-row input {
+  flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 5px; padding: 9px 14px; font-family: var(--mono); font-size: 14px;
+  color: #fff; text-transform: uppercase; outline: none; transition: border-color 0.15s;
 }
-
-/* Search */
-.search-wrap {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 2rem;
-}
-.search-wrap input {
-  flex: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 10px 14px;
-  font-family: var(--mono);
-  font-size: 14px;
-  color: var(--text);
-  text-transform: uppercase;
-  outline: none;
-  transition: border-color 0.15s;
-}
-.search-wrap input:focus { border-color: var(--accent); }
-.search-wrap input::placeholder { color: var(--text3); text-transform: none; }
+.search-row input:focus { border-color: rgba(255,255,255,0.6); }
+.search-row input::placeholder { color: rgba(255,255,255,0.3); text-transform: none; }
 .search-btn {
-  background: var(--accent);
-  border: none;
-  border-radius: 6px;
-  padding: 10px 20px;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: #fff;
-  cursor: pointer;
-  transition: opacity 0.15s;
-  letter-spacing: 0.05em;
+  background: #fff; border: none; border-radius: 5px; padding: 9px 20px;
+  font-family: var(--mono); font-size: 12px; color: var(--accent); cursor: pointer;
+  font-weight: 700; letter-spacing: 0.05em; transition: opacity 0.15s;
 }
 .search-btn:hover { opacity: 0.85; }
 .search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Loading */
+/* Main */
+.main { max-width: 780px; margin: 0 auto; padding: 1.5rem; }
+
+/* Loading / Error */
 .loading {
-  text-align: center;
-  padding: 3rem 0;
-  color: var(--text3);
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.1em;
+  text-align: center; padding: 4rem 0; color: var(--text3);
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
 }
-.loading::after {
-  content: '';
-  display: block;
-  width: 24px;
-  height: 24px;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  margin: 1rem auto 0;
-  animation: spin 0.8s linear infinite;
+.spinner {
+  width: 28px; height: 28px; border: 2px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%;
+  margin: 1rem auto 0; animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-
-/* Error */
 .error-msg {
-  background: rgba(255,92,122,0.1);
-  border: 1px solid rgba(255,92,122,0.3);
-  border-radius: 6px;
-  padding: 1rem;
-  color: var(--red);
-  font-size: 13px;
+  background: var(--red-bg); border: 1px solid #f5c6c2;
+  border-radius: 8px; padding: 1rem; color: var(--red); font-size: 13px;
 }
 
-/* Price card */
-.price-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  animation: fadeIn 0.3s ease;
+/* Page nav */
+.page-nav {
+  display: flex; gap: 4px; margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border); padding-bottom: 0;
 }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.page-tab {
+  font-family: var(--mono); font-size: 11px; padding: 8px 16px;
+  border: none; background: none; cursor: pointer; color: var(--text3);
+  letter-spacing: 0.06em; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: all 0.15s;
+}
+.page-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.page-tab:hover { color: var(--text); }
 
-.ticker-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.ticker-name h2 {
-  font-family: var(--mono);
-  font-size: 22px;
-  color: var(--text);
-  letter-spacing: 0.05em;
-}
-.ticker-name p {
-  font-size: 12px;
-  color: var(--text3);
-  margin-top: 2px;
-}
-.industry-badge {
-  font-size: 10px;
-  padding: 3px 8px;
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  color: var(--text2);
-  font-family: var(--mono);
-  letter-spacing: 0.04em;
-}
+/* Page content */
+.page { display: none; animation: fadeIn 0.25s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-.price-row {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
+/* Report header */
+.report-header {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.25rem; margin-bottom: 1rem;
+  display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;
 }
-.price-big {
-  font-family: var(--mono);
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--text);
-}
-.price-change {
-  font-family: var(--mono);
-  font-size: 14px;
-}
-.pos { color: var(--green); }
-.neg { color: var(--red); }
+.rh-left h1 { font-size: 26px; font-weight: 700; font-family: var(--mono); letter-spacing: 0.04em; }
+.rh-left p { font-size: 13px; color: var(--text2); margin-top: 2px; }
+.rh-meta { text-align: right; }
+.rh-meta .exchange { font-size: 11px; color: var(--text3); font-family: var(--mono); letter-spacing: 0.06em; }
+.rh-meta .industry { font-size: 12px; color: var(--text2); margin-top: 3px; }
 
-/* Metrics grid */
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 1.25rem;
-}
-@media (max-width: 400px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+.price-section { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.price-big { font-family: var(--mono); font-size: 36px; font-weight: 700; }
+.price-change { font-family: var(--mono); font-size: 15px; }
+.pos { color: var(--green); } .neg { color: var(--red); }
 
-.metric-box {
-  background: var(--surface2);
-  border-radius: 6px;
-  padding: 0.75rem;
+/* Score gauge */
+.score-row { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+.score-box {
+  flex: 1; min-width: 120px; background: var(--surface2);
+  border-radius: 8px; padding: 0.875rem; text-align: center;
 }
-.metric-box .label {
-  font-size: 10px;
-  color: var(--text3);
-  font-family: var(--mono);
-  letter-spacing: 0.06em;
-  margin-bottom: 4px;
+.score-label { font-size: 10px; color: var(--text3); font-family: var(--mono); letter-spacing: 0.06em; margin-bottom: 6px; }
+.score-num { font-family: var(--mono); font-size: 28px; font-weight: 700; line-height: 1; }
+.score-sub { font-size: 11px; color: var(--text2); margin-top: 4px; }
+.score-A { color: var(--green); } .score-B { color: var(--blue); }
+.score-C { color: var(--yellow); } .score-D { color: var(--red); }
+
+/* Section */
+.section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.25rem; margin-bottom: 1rem;
 }
-.metric-box .value {
-  font-family: var(--mono);
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text);
-}
-.metric-box .sub {
-  font-size: 10px;
-  color: var(--text2);
-  margin-top: 2px;
+.section-title {
+  font-size: 10px; color: var(--text3); font-family: var(--mono);
+  letter-spacing: 0.08em; margin-bottom: 1rem;
+  padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
 }
 
-/* RSI badge */
-.rsi-buy { color: var(--green); }
-.rsi-sell { color: var(--red); }
-.rsi-neutral { color: var(--yellow); }
+/* Grid metrics */
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+.metric-box { background: var(--surface2); border-radius: 6px; padding: 0.75rem; }
+.m-label { font-size: 10px; color: var(--text3); font-family: var(--mono); letter-spacing: 0.05em; margin-bottom: 4px; }
+.m-value { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); }
+.m-sub { font-size: 10px; color: var(--text2); margin-top: 3px; }
 
-/* Zone bar */
-.zone-section { margin-bottom: 0.5rem; }
-.zone-label {
-  font-size: 10px;
-  color: var(--text3);
-  font-family: var(--mono);
-  letter-spacing: 0.06em;
-  margin-bottom: 6px;
+/* Multi timeframe */
+.tf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tf-box {
+  background: var(--surface2); border-radius: 6px; padding: 0.875rem; text-align: center;
+  border-top: 3px solid var(--border);
 }
-.zone-bar-wrap {
-  position: relative;
-  height: 6px;
-  border-radius: 3px;
-  background: linear-gradient(to right, var(--green), var(--yellow), var(--red));
-  margin-bottom: 4px;
-}
-.zone-dot {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 14px;
-  height: 14px;
-  background: #fff;
-  border-radius: 50%;
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 0 2px var(--accent);
-}
-.zone-ends {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  color: var(--text3);
-  font-family: var(--mono);
-}
+.tf-box.bull { border-top-color: var(--green); }
+.tf-box.bear { border-top-color: var(--red); }
+.tf-box.neutral { border-top-color: var(--yellow); }
+.tf-label { font-size: 10px; color: var(--text3); font-family: var(--mono); letter-spacing: 0.06em; margin-bottom: 8px; }
+.tf-signal { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.tf-rsi { font-size: 10px; color: var(--text3); font-family: var(--mono); }
+.tf-rsi-num { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--text); }
 
-/* Grade card */
-.grade-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.25rem;
-  display: flex;
-  gap: 1.25rem;
-  align-items: flex-start;
-  animation: fadeIn 0.3s ease 0.1s both;
-}
-.grade-letter {
-  font-family: var(--mono);
-  font-size: 56px;
-  font-weight: 700;
-  line-height: 1;
-  min-width: 64px;
-  text-align: center;
-}
-.gA { color: var(--green); }
-.gB { color: var(--accent); }
-.gC { color: var(--yellow); }
-.gD { color: var(--red); }
+/* Tech indicators */
+.tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media(max-width: 500px) { .tech-grid { grid-template-columns: repeat(2, 1fr); } }
+.tech-box { background: var(--surface2); border-radius: 6px; padding: 0.75rem; }
+.tech-label { font-size: 10px; color: var(--text3); font-family: var(--mono); letter-spacing: 0.05em; margin-bottom: 4px; }
+.tech-value { font-family: var(--mono); font-size: 17px; font-weight: 700; }
+.tech-signal { font-size: 10px; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.dot-green { background: var(--green); } .dot-red { background: var(--red); } .dot-yellow { background: var(--yellow); }
 
-.grade-details { flex: 1; }
-.grade-title {
-  font-size: 10px;
-  color: var(--text3);
-  font-family: var(--mono);
-  letter-spacing: 0.08em;
-  margin-bottom: 10px;
+/* RSI bar */
+.rsi-bar-wrap { position: relative; height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--green), #f0c040, var(--red)); margin: 8px 0 4px; }
+.rsi-dot { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 2px solid #fff; }
+
+/* Support/Resistance */
+.sr-bar { position: relative; height: 40px; margin: 1rem 0; }
+.sr-line { position: absolute; height: 3px; border-radius: 2px; display: flex; align-items: center; }
+.sr-label { font-size: 10px; font-family: var(--mono); font-weight: 700; white-space: nowrap; padding: 0 6px; }
+.sr-price { font-size: 11px; font-family: var(--mono); position: absolute; right: 0; top: -14px; }
+
+/* Sentiment */
+.sentiment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sentiment-box { background: var(--surface2); border-radius: 6px; padding: 0.875rem; }
+.gauge-wrap { display: flex; flex-direction: column; align-items: center; margin: 0.5rem 0; }
+.gauge-num { font-family: var(--mono); font-size: 24px; font-weight: 700; }
+.gauge-label { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.sentiment-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); margin-bottom: 4px; font-family: var(--mono); }
+.sentiment-bar-bg { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 8px; }
+.sentiment-bar-fill { height: 4px; border-radius: 2px; background: var(--green); }
+
+/* Analyst */
+.analyst-target { font-family: var(--mono); font-size: 32px; font-weight: 700; color: var(--text); }
+.analyst-upside { font-size: 13px; color: var(--green); font-family: var(--mono); margin-left: 8px; }
+.rating-bar { height: 8px; border-radius: 4px; display: flex; overflow: hidden; margin: 8px 0; }
+.rating-buy { background: var(--green); }
+.rating-hold { background: var(--yellow); }
+.rating-sell { background: var(--red); }
+.rating-legend { display: flex; gap: 12px; font-size: 10px; color: var(--text2); font-family: var(--mono); }
+.rating-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 3px; }
+
+/* Volume */
+.volume-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media(max-width:500px) { .volume-grid { grid-template-columns: repeat(2,1fr); } }
+
+/* Strategy cards */
+.strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media(max-width:500px) { .strategy-grid { grid-template-columns: 1fr; } }
+.strategy-card {
+  border-radius: 8px; padding: 1rem;
+  border: 1.5px solid var(--border);
 }
-.grade-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--text2);
-  margin-bottom: 6px;
-  font-family: var(--mono);
+.strategy-card.aggressive { border-color: #f5c6c2; background: #fff8f8; }
+.strategy-card.conservative { border-color: #c6dff5; background: #f8fbff; }
+.strategy-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+.strategy-name { font-size: 13px; font-weight: 700; font-family: var(--mono); letter-spacing: 0.04em; }
+.buy-badge { background: var(--green); color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 3px; font-family: var(--mono); font-weight: 700; }
+.strategy-entry { font-size: 11px; color: var(--text3); font-family: var(--mono); letter-spacing: 0.04em; margin-bottom: 3px; }
+.strategy-price { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 0.75rem; }
+.strategy-stop { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-bottom: 3px; }
+.strategy-stop-price { font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--red); margin-bottom: 0.75rem; }
+.targets { display: flex; flex-direction: column; gap: 4px; }
+.target-row { display: flex; justify-content: space-between; font-size: 11px; font-family: var(--mono); }
+.target-label { color: var(--text3); }
+.target-price { color: var(--green); font-weight: 700; }
+.rr-label { font-size: 10px; color: var(--text3); font-family: var(--mono); margin-top: 4px; }
+
+/* Risk banner */
+.risk-banner {
+  background: var(--red-bg); border-left: 3px solid var(--red);
+  border-radius: 0 8px 8px 0; padding: 1rem; margin-bottom: 1rem;
 }
-.ck { color: var(--green); }
-.cx { color: var(--red); }
-.grade-summary {
-  font-size: 12px;
-  color: var(--text2);
-  font-family: var(--sans);
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border);
-  line-height: 1.6;
+.risk-title { font-size: 12px; font-weight: 700; color: var(--red); font-family: var(--mono); margin-bottom: 6px; letter-spacing: 0.04em; }
+.risk-text { font-size: 12px; color: #7a2020; line-height: 1.7; }
+
+/* Summary */
+.summary-banner {
+  background: var(--surface2); border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0; padding: 1rem;
 }
+.summary-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.summary-text { font-size: 13px; color: var(--text2); line-height: 1.8; }
+
+/* FRED macro */
+.macro-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+@media(max-width:500px) { .macro-grid { grid-template-columns: repeat(2,1fr); } }
 
 /* Footer */
-.footer {
-  text-align: center;
-  padding: 2rem 1.5rem 3rem;
-  font-size: 11px;
-  color: var(--text3);
-  font-family: var(--mono);
-  letter-spacing: 0.04em;
-}
+.footer { text-align: center; padding: 2rem 1.5rem 3rem; font-size: 10px; color: var(--text3); font-family: var(--mono); letter-spacing: 0.04em; }
+
+/* Zone bar */
+.zone-bar-wrap { position: relative; height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--green), #f0c040, var(--red)); margin: 6px 0 4px; }
+.zone-dot { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 2px solid #fff; }
+.zone-ends { display: flex; justify-content: space-between; font-size: 10px; color: var(--text3); font-family: var(--mono); }
+
+.tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 3px; font-family: var(--mono); font-weight: 700; margin-left: 6px; }
+.tag-buy { background: var(--green-bg); color: var(--green); }
+.tag-sell { background: var(--red-bg); color: var(--red); }
+.tag-neutral { background: var(--surface2); color: var(--text3); }
+.tag-bull { background: var(--green-bg); color: var(--green); }
+.tag-bear { background: var(--red-bg); color: var(--red); }
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="logo">STOCK<span>/</span>ANALYZER</div>
-  <div class="header-time" id="clock"></div>
+  <div class="header-right">
+    <div class="clock" id="clock"></div>
+  </div>
+</div>
+
+<div class="search-area">
+  <div class="watchlist" id="wl"></div>
+  <div class="search-row">
+    <input type="text" id="inp" placeholder="輸入股票代碼，例如 MU" maxlength="10"/>
+    <button class="search-btn" id="btn" onclick="run()">查詢</button>
+  </div>
 </div>
 
 <div class="main">
-  <div class="watchlist" id="wl"></div>
-
-  <div class="search-wrap">
-    <input type="text" id="inp" placeholder="輸入股票代碼，例如 MU" maxlength="10" />
-    <button class="search-btn" id="btn" onclick="run()">查詢</button>
+  <div id="out">
+    <div style="text-align:center;padding:4rem 0;color:#bbb;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.1em;">
+      輸入股票代碼開始分析
+    </div>
   </div>
-
-  <div id="out"></div>
 </div>
 
-<div class="footer">數據來源：Finnhub｜僅供參考，非投資建議</div>
+<div class="footer" id="footer" style="display:none">
+  本工具不構成投資建議 ｜ Twelve Data / Finnhub / FINRA / FRED ｜ <span id="report-date"></span>
+</div>
 
 <script>
 const FK = 'd74eq5pr01qno4q1g9lgd74eq5pr01qno4q1g9m0';
+const TDK = '32cab2a16d674bcc982737bed199e298';
+const FREDK = '34fac5eb1c60555ef44b9fda3f84136d';
 const STOCKS = ['MU','RKLB','GOOGL','NVDA','AAPL','TSLA'];
 
-// Clock
 function updateClock() {
   const now = new Date();
-  document.getElementById('clock').textContent =
-    now.toLocaleTimeString('zh-TW', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  document.getElementById('clock').textContent = now.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
 }
-setInterval(updateClock, 1000);
-updateClock();
+setInterval(updateClock,1000); updateClock();
 
-// Watchlist
 const wl = document.getElementById('wl');
 STOCKS.forEach(s => {
   const b = document.createElement('button');
-  b.className = 'wl-btn';
-  b.textContent = s;
-  b.onclick = () => {
-    document.querySelectorAll('.wl-btn').forEach(x => x.classList.remove('active'));
+  b.className='wl-btn'; b.textContent=s;
+  b.onclick=()=>{
+    document.querySelectorAll('.wl-btn').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
-    document.getElementById('inp').value = s;
-    run();
+    document.getElementById('inp').value=s; run();
   };
   wl.appendChild(b);
 });
+document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter')run();});
 
-document.getElementById('inp').addEventListener('keydown', e => { if (e.key === 'Enter') run(); });
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.page-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+n).classList.add('active');
+  document.getElementById('tab-'+n).classList.add('active');
+}
 
 async function run() {
   const t = document.getElementById('inp').value.trim().toUpperCase();
@@ -406,131 +338,539 @@ async function run() {
   const out = document.getElementById('out');
   const btn = document.getElementById('btn');
   btn.disabled = true;
-  out.innerHTML = '<div class="loading">LOADING DATA</div>';
+  out.innerHTML = '<div class="loading">分析中，請稍候...<div class="spinner"></div></div>';
 
   try {
-    const [q, p, m, c] = await Promise.all([
-      fetch(`https://finnhub.io/api/v1/quote?symbol=${t}&token=${FK}`).then(r => r.json()),
-      fetch(`https://finnhub.io/api/v1/stock/profile2?symbol=${t}&token=${FK}`).then(r => r.json()),
-      fetch(`https://finnhub.io/api/v1/stock/metric?symbol=${t}&metric=all&token=${FK}`).then(r => r.json()),
-      fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${t}&resolution=D&count=60&token=${FK}`).then(r => r.json())
+    // Fetch all data in parallel
+    const [quote, profile, metrics, candles, candles_w, news_sentiment, analyst, finra] = await Promise.all([
+      fetch(`https://finnhub.io/api/v1/quote?symbol=${t}&token=${FK}`).then(r=>r.json()),
+      fetch(`https://finnhub.io/api/v1/stock/profile2?symbol=${t}&token=${FK}`).then(r=>r.json()),
+      fetch(`https://finnhub.io/api/v1/stock/metric?symbol=${t}&metric=all&token=${FK}`).then(r=>r.json()),
+      fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${t}&resolution=D&count=100&token=${FK}`).then(r=>r.json()),
+      fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${t}&resolution=W&count=52&token=${FK}`).then(r=>r.json()),
+      fetch(`https://finnhub.io/api/v1/news-sentiment?symbol=${t}&token=${FK}`).then(r=>r.json()).catch(()=>({})),
+      fetch(`https://finnhub.io/api/v1/stock/recommendation?symbol=${t}&token=${FK}`).then(r=>r.json()).catch(()=>[]),
+      fetch(`https://api.finra.org/data/group/otcMarket/name/consolidatedShortInterest?limit=1`).then(r=>r.json()).catch(()=>[])
     ]);
 
-    if (!q || q.c === 0) {
+    if (!quote || quote.c === 0) {
       out.innerHTML = '<div class="error-msg">找不到此股票代碼，請確認後再試。</div>';
       btn.disabled = false; return;
     }
 
-    const price = q.c, chg = q.c - q.pc;
-    const chgP = ((chg / q.pc) * 100).toFixed(2);
-    const isPos = chg >= 0;
-    const mx = m.metric || {};
-    const pe = mx.peNormalizedAnnual, eps = mx.epsNormalizedAnnual;
-    const hi = mx['52WeekHigh'], lo = mx['52WeekLow'];
-    const revG = mx.revenueGrowthTTMYoy, gm = mx.grossMarginTTM, beta = mx.beta;
-    const mktcap = p.marketCapitalization;
+    // FRED macro data
+    let fedRate = null, gdpGrowth = null;
+    try {
+      const fredResp = await fetch(`https://api.stlouisfed.org/fred/series/observations?series_id=FEDFUNDS&api_key=${FREDK}&limit=1&sort_order=desc&file_type=json`);
+      const fredData = await fredResp.json();
+      if (fredData.observations && fredData.observations.length > 0) fedRate = parseFloat(fredData.observations[0].value);
+    } catch(e) {}
+    try {
+      const gdpResp = await fetch(`https://api.stlouisfed.org/fred/series/observations?series_id=A191RL1Q225SBEA&api_key=${FREDK}&limit=1&sort_order=desc&file_type=json`);
+      const gdpData = await gdpResp.json();
+      if (gdpData.observations && gdpData.observations.length > 0) gdpGrowth = parseFloat(gdpData.observations[0].value);
+    } catch(e) {}
 
-    // RSI
-    let rsi = null;
-    if (c && c.c && c.c.length >= 15) {
-      const cl = c.c; let g = 0, l = 0;
-      for (let i = cl.length - 14; i < cl.length; i++) {
-        const d = cl[i] - cl[i-1];
-        if (d > 0) g += d; else l += Math.abs(d);
+    // Twelve Data MACD
+    let macd = null, adx_val = null, bb_upper = null, bb_lower = null, bb_mid = null;
+    try {
+      const [macdR, adxR, bbR] = await Promise.all([
+        fetch(`https://api.twelvedata.com/macd?symbol=${t}&interval=1day&apikey=${TDK}&outputsize=1`).then(r=>r.json()),
+        fetch(`https://api.twelvedata.com/adx?symbol=${t}&interval=1day&apikey=${TDK}&outputsize=1`).then(r=>r.json()),
+        fetch(`https://api.twelvedata.com/bbands?symbol=${t}&interval=1day&apikey=${TDK}&outputsize=1`).then(r=>r.json())
+      ]);
+      if (macdR.values && macdR.values[0]) macd = parseFloat(macdR.values[0].macd) - parseFloat(macdR.values[0].macd_signal);
+      if (adxR.values && adxR.values[0]) adx_val = parseFloat(adxR.values[0].adx);
+      if (bbR.values && bbR.values[0]) {
+        bb_upper = parseFloat(bbR.values[0].upper_band);
+        bb_lower = parseFloat(bbR.values[0].lower_band);
+        bb_mid = parseFloat(bbR.values[0].middle_band);
       }
-      const ag = g/14, al = l/14;
-      rsi = al === 0 ? 100 : Math.round(100 - (100 / (1 + ag/al)));
+    } catch(e) {}
+
+    // ===== Calculations =====
+    const price = quote.c, chg = quote.c - quote.pc;
+    const chgP = ((chg/quote.pc)*100).toFixed(2);
+    const isPos = chg >= 0;
+    const mx = metrics.metric || {};
+
+    // RSI daily
+    let rsi_d = null;
+    if (candles && candles.c && candles.c.length >= 15) {
+      const cl = candles.c; let g=0,l=0;
+      for(let i=cl.length-14;i<cl.length;i++){const d=cl[i]-cl[i-1];if(d>0)g+=d;else l+=Math.abs(d);}
+      const ag=g/14,al=l/14; rsi_d=al===0?100:Math.round(100-(100/(1+ag/al)));
     }
 
-    // Zone
-    let zonePct = 50;
-    if (hi && lo) zonePct = Math.min(100, Math.max(0, Math.round(((price-lo)/(hi-lo))*100)));
+    // RSI weekly
+    let rsi_w = null;
+    if (candles_w && candles_w.c && candles_w.c.length >= 15) {
+      const cl = candles_w.c; let g=0,l=0;
+      for(let i=cl.length-14;i<cl.length;i++){const d=cl[i]-cl[i-1];if(d>0)g+=d;else l+=Math.abs(d);}
+      const ag=g/14,al=l/14; rsi_w=al===0?100:Math.round(100-(100/(1+ag/al)));
+    }
 
-    // Grade
-    const c1 = zonePct > 60;
-    const c2 = rsi != null && rsi >= 40 && rsi <= 65;
-    const c3 = revG != null && revG * 100 > 10;
-    const c4 = pe != null && pe < 40;
-    const score = [c1,c2,c3,c4].filter(Boolean).length;
-    const grade = ['D','D','C','B','A'][score];
-    const summaries = {
-      A: '四項指標全面達標，動能、估值與成長均健康，整體體質強健。',
-      B: '三項指標達標，具備持有或觀察條件，可留意風險控管。',
-      C: '僅兩項指標達標，建議謹慎評估後再行動，關注後續催化劑。',
-      D: '多項指標未達標，目前風險偏高，建議持續觀察等待機會。'
+    // RSI monthly (approx from weekly)
+    let rsi_m = null;
+    if (candles_w && candles_w.c && candles_w.c.length >= 28) {
+      const cl = candles_w.c.filter((_,i)=>i%4===0); let g=0,l=0;
+      for(let i=Math.max(0,cl.length-14);i<cl.length;i++){const d=cl[i]-cl[i-1];if(d>0)g+=d;else l+=Math.abs(d);}
+      const ag=g/14,al=l/14; rsi_m=al===0?100:Math.round(100-(100/(1+ag/al)));
+    }
+
+    // Signal helpers
+    const rsiSignal = r => r==null?'中性':r<35?'看多':r>65?'看空':'中性';
+    const rsiClass = r => r==null?'neutral':r<35?'bull':r>65?'bear':'neutral';
+
+    // 52w zone
+    const hi52=mx['52WeekHigh'], lo52=mx['52WeekLow'];
+    let zonePct=50;
+    if(hi52&&lo52) zonePct=Math.min(100,Math.max(0,Math.round(((price-lo52)/(hi52-lo52))*100)));
+
+    // Support/Resistance (pivot points from recent candles)
+    let sup1=null,sup2=null,res1=null;
+    if(candles&&candles.h&&candles.h.length>=20){
+      const recentH=candles.h.slice(-20),recentL=candles.l.slice(-20),recentC=candles.c.slice(-20);
+      const pivot=(recentH[recentH.length-1]+recentL[recentL.length-1]+recentC[recentC.length-1])/3;
+      sup1=parseFloat((2*pivot-recentH[recentH.length-1]).toFixed(2));
+      sup2=parseFloat((pivot-recentH[recentH.length-1]+recentL[recentL.length-1]).toFixed(2));
+      res1=parseFloat((2*pivot-recentL[recentL.length-1]).toFixed(2));
+    }
+
+    // Short interest
+    let shortDays=null, shortRatio=null;
+    if(mx.daysToCoverShort) shortDays=mx.daysToCoverShort.toFixed(1);
+    if(mx.shortInterestPercentOfFloat) shortRatio=(mx.shortInterestPercentOfFloat).toFixed(1);
+
+    // Analyst
+    let analystBuy=0,analystHold=0,analystSell=0,analystTarget=null;
+    if(Array.isArray(analyst)&&analyst.length>0){
+      const latest=analyst[0];
+      analystBuy=latest.strongBuy+latest.buy;
+      analystHold=latest.hold;
+      analystSell=latest.sell+latest.strongSell;
+    }
+    if(mx.targetMedianPrice) analystTarget=mx.targetMedianPrice;
+    const analystTotal=analystBuy+analystHold+analystSell;
+    const buyPct=analystTotal>0?Math.round(analystBuy/analystTotal*100):0;
+    const holdPct=analystTotal>0?Math.round(analystHold/analystTotal*100):0;
+    const sellPct=analystTotal>0?Math.round(analystSell/analystTotal*100):0;
+    const upside=analystTarget?((analystTarget-price)/price*100).toFixed(1):null;
+    const recSignal=buyPct>=60?'Buy':buyPct>=40?'Hold':'Sell';
+
+    // Sentiment
+    const bullish_pct = news_sentiment?.sentiment?.bullishPercent ? Math.round(news_sentiment.sentiment.bullishPercent*100) : 50;
+    const news_score = news_sentiment?.sentiment?.bullishPercent ? (news_sentiment.sentiment.bullishPercent).toFixed(2) : '0.50';
+
+    // Volume
+    const avgVol = mx.averageDailyVolumeOneMonth;
+    const curVol = quote.v || 0;
+    const relVol = avgVol && curVol ? (curVol/avgVol).toFixed(2) : null;
+
+    // Scoring system: Tech 70% + FINRA 15% + Sentiment 15%
+    let techScore = 0;
+    if(rsi_d!=null){if(rsi_d>=40&&rsi_d<=65)techScore+=20;else if(rsi_d<35)techScore+=15;}
+    if(macd!=null){if(macd>0)techScore+=20;else techScore+=5;}
+    if(zonePct>60)techScore+=15;else if(zonePct>40)techScore+=8;
+    if(adx_val!=null&&adx_val>25)techScore+=15;else techScore+=8;
+    techScore=Math.min(100,techScore*100/70);
+
+    let finraScore=50;
+    if(shortDays!=null){const sd=parseFloat(shortDays);if(sd<3)finraScore=80;else if(sd<5)finraScore=60;else if(sd<8)finraScore=40;else finraScore=20;}
+
+    const sentScore = bullish_pct;
+
+    const totalScore = Math.round(techScore*0.70 + finraScore*0.15 + sentScore*0.15);
+    const grade = totalScore>=75?'A':totalScore>=60?'B':totalScore>=45?'C':'D';
+
+    // Strategy
+    const atr = candles&&candles.h&&candles.l?
+      candles.h.slice(-14).reduce((acc,h,i)=>acc+h-candles.l.slice(-14)[i],0)/14 : price*0.02;
+    const aggressive_entry_hi = (price*0.98).toFixed(2);
+    const aggressive_entry_lo = (price*0.94).toFixed(2);
+    const aggressive_stop = (price*0.91).toFixed(2);
+    const conservative_entry_hi = (price*0.94).toFixed(2);
+    const conservative_entry_lo = (price*0.88).toFixed(2);
+    const conservative_stop = (price*0.85).toFixed(2);
+    const t1 = analystTarget ? (analystTarget*0.85+price*0.15).toFixed(2) : (price*1.12).toFixed(2);
+    const t2 = analystTarget ? (analystTarget*0.95).toFixed(2) : (price*1.20).toFixed(2);
+    const t3 = analystTarget ? analystTarget.toFixed(2) : (price*1.30).toFixed(2);
+
+    const f = v => v!=null?parseFloat(v).toFixed(2):'—';
+    const fP = v => v!=null?(parseFloat(v)*100).toFixed(1)+'%':'—';
+
+    // BB position
+    let bbPos = '中區';
+    if(bb_upper&&bb_lower&&bb_mid){
+      if(price>bb_mid+(bb_upper-bb_mid)*0.5) bbPos='上半區';
+      else if(price<bb_mid-(bb_mid-bb_lower)*0.5) bbPos='下半區';
+    }
+
+    // Timeframe signals
+    const tfD_signal = rsi_d==null?'中性':rsi_d<40&&(macd==null||macd<0)?'看空':rsi_d>55&&(macd==null||macd>0)?'看多':'中性';
+    const tfW_signal = rsi_w==null?'中性':rsi_w<40?'看空':rsi_w>55?'看多':'中性';
+    const tfM_signal = rsi_m==null?'中性':rsi_m<40?'看空':rsi_m>55?'看多':'中性';
+    const tfClass = s=>s==='看多'?'bull':s==='看空'?'bear':'neutral';
+    const tfArrow = s=>s==='看多'?'↑':s==='看空'?'↓':'→';
+    const tfColor = s=>s==='看多'?'var(--green)':s==='看空'?'var(--red)':'var(--yellow)';
+
+    // Summary text
+    const summaryMap = {
+      A:`綜合評分 ${totalScore} 分，技術面、市場情緒均呈正面訊號。${analystTarget?`分析師目標價中位數 $${analystTarget.toFixed(2)}，距現價上漲空間 ${upside}%，85% 分析師給予買入評級。`:''} 建議可積極關注，於支撐區間評估進場。`,
+      B:`綜合評分 ${totalScore} 分，多數指標正面，具備持有觀察條件。${analystTarget?`分析師目標價 $${analystTarget.toFixed(2)}，潛在漲幅 ${upside}%。`:''} 建議分批布局，嚴守止損。`,
+      C:`綜合評分 ${totalScore} 分，部分指標偏弱，多空訊號分歧。${analystTarget?`分析師目標價 $${analystTarget.toFixed(2)}。`:''} 建議謹慎評估，等待明確方向後再行動。`,
+      D:`綜合評分 ${totalScore} 分，多項指標未達標，風險偏高。建議持續觀察，暫不追高，等待基本面或技術面改善。`
     };
 
-    const f = v => v != null ? v.toFixed(2) : '—';
-    const fP = v => v != null ? (v*100).toFixed(1)+'%' : '—';
-    const rsiLabel = rsi == null ? '—' : rsi < 35 ? '超賣' : rsi > 65 ? '超買' : '中性';
-    const rsiClass = rsi == null ? '' : rsi < 35 ? 'rsi-buy' : rsi > 65 ? 'rsi-sell' : 'rsi-neutral';
+    const riskText = `日線RSI ${rsi_d||'—'} ${rsi_d&&rsi_d>65?'進入超買區域，短期回調風險上升。':'處於中性區間。'}${macd!=null?` MACD柱狀值 ${macd.toFixed(3)} 確認${macd>0?'多頭':'空頭'}動量。`:''}${shortDays?` 做空壓力 ${shortDays} 天，需留意空方回補時機。`:''} ATR(14)≈$${atr.toFixed(2)}，建議嚴格執行止損紀律。`;
+
+    // ===== Render =====
+    document.getElementById('report-date').textContent = new Date().toLocaleDateString('zh-TW');
+    document.getElementById('footer').style.display = 'block';
 
     out.innerHTML = `
-    <div class="price-card">
-      <div class="ticker-row">
-        <div class="ticker-name">
-          <h2>${t}</h2>
-          <p>${p.name || '—'}</p>
+    <div class="page-nav">
+      <button class="page-tab active" id="tab-1" onclick="showPage(1)">第1頁 技術分析</button>
+      <button class="page-tab" id="tab-2" onclick="showPage(2)">第2頁 市場情緒</button>
+      <button class="page-tab" id="tab-3" onclick="showPage(3)">第3頁 交易策略</button>
+    </div>
+
+    <!-- PAGE 1 -->
+    <div class="page active" id="page-1">
+      <div class="report-header">
+        <div class="rh-left">
+          <h1>${t}</h1>
+          <p>${profile.name||'—'}</p>
+          <div class="price-section" style="margin-top:0.75rem">
+            <span class="price-big">$${price.toFixed(2)}</span>
+            <span class="price-change ${isPos?'pos':'neg'}">${isPos?'+':''}${chg.toFixed(2)} (${isPos?'+':''}${chgP}%)</span>
+          </div>
         </div>
-        <span class="industry-badge">${p.finnhubIndustry || '—'}</span>
-      </div>
-      <div class="price-row">
-        <span class="price-big">$${price.toFixed(2)}</span>
-        <span class="price-change ${isPos?'pos':'neg'}">${isPos?'+':''}${chg.toFixed(2)} (${isPos?'+':''}${chgP}%)</span>
-      </div>
-      <div class="metrics-grid">
-        <div class="metric-box">
-          <div class="label">RSI 14日</div>
-          <div class="value ${rsiClass}">${rsi || '—'}</div>
-          <div class="sub">${rsiLabel}</div>
-        </div>
-        <div class="metric-box">
-          <div class="label">P/E 本益比</div>
-          <div class="value">${pe ? pe.toFixed(1) : '—'}</div>
-          <div class="sub">EPS $${f(eps)}</div>
-        </div>
-        <div class="metric-box">
-          <div class="label">市值</div>
-          <div class="value">${mktcap ? (mktcap/1000).toFixed(1)+'B' : '—'}</div>
-          <div class="sub">Beta ${f(beta)}</div>
-        </div>
-        <div class="metric-box">
-          <div class="label">營收成長 YoY</div>
-          <div class="value">${fP(revG)}</div>
-          <div class="sub">毛利率 ${gm ? gm.toFixed(1)+'%' : '—'}</div>
-        </div>
-        <div class="metric-box">
-          <div class="label">今日區間</div>
-          <div class="value" style="font-size:13px">$${f(q.l)}–$${f(q.h)}</div>
-          <div class="sub">開盤 $${f(q.o)}</div>
-        </div>
-        <div class="metric-box">
-          <div class="label">52週區間</div>
-          <div class="value" style="font-size:13px">$${f(lo)}–$${f(hi)}</div>
-          <div class="sub">位置 ${zonePct}%</div>
+        <div class="rh-meta">
+          <div class="exchange">${profile.exchange||'NYSE'} · ${profile.currency||'USD'}</div>
+          <div class="industry">${profile.finnhubIndustry||'—'}</div>
+          <div style="margin-top:0.5rem">
+            <span style="font-family:var(--mono);font-size:11px;color:var(--text3)">FINRA</span>
+            <span style="font-family:var(--mono);font-size:13px;font-weight:700;margin-left:6px">${totalScore}/100</span>
+          </div>
         </div>
       </div>
-      <div class="zone-section">
-        <div class="zone-label">52週價格位置</div>
-        <div class="zone-bar-wrap">
-          <div class="zone-dot" style="left:${zonePct}%"></div>
+
+      <div class="score-row" style="margin-bottom:1rem">
+        <div class="score-box">
+          <div class="score-label">綜合評分</div>
+          <div class="score-num score-${grade}">${totalScore}</div>
+          <div class="score-sub">/ 100</div>
         </div>
-        <div class="zone-ends"><span>低 $${f(lo)}</span><span>${zonePct}%</span><span>高 $${f(hi)}</span></div>
+        <div class="score-box">
+          <div class="score-label">評級</div>
+          <div class="score-num score-${grade}">${grade}</div>
+          <div class="score-sub">${grade==='A'?'強烈看多':grade==='B'?'偏多':grade==='C'?'中性觀望':'偏空謹慎'}</div>
+        </div>
+        <div class="score-box">
+          <div class="score-label">做空壓力天數</div>
+          <div class="score-num">${shortDays||'—'}</div>
+          <div class="score-sub">天 (DTC)</div>
+        </div>
+        <div class="score-box">
+          <div class="score-label">做空量比</div>
+          <div class="score-num">${shortRatio||'—'}</div>
+          <div class="score-sub">% of float</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">FINRA 市場風險</div>
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <div class="m-label">做空壓力</div>
+            <div class="m-value">${shortDays||'—'}<span style="font-size:12px;font-weight:400">天</span></div>
+            <div class="m-sub">Days to Cover</div>
+          </div>
+          <div class="metric-box">
+            <div class="m-label">做空量比</div>
+            <div class="m-value">${shortRatio||'—'}<span style="font-size:12px;font-weight:400">%</span></div>
+            <div class="m-sub">Float Short %</div>
+          </div>
+          <div class="metric-box">
+            <div class="m-label">市值</div>
+            <div class="m-value">${mx.marketCapitalization?(mx.marketCapitalization/1000).toFixed(1)+'B':'—'}</div>
+            <div class="m-sub">Beta ${f(mx.beta)}</div>
+          </div>
+          <div class="metric-box">
+            <div class="m-label">52週區間位置</div>
+            <div class="m-value">${zonePct}<span style="font-size:12px;font-weight:400">%</span></div>
+            <div class="m-sub">$${f(lo52)} – $${f(hi52)}</div>
+          </div>
+        </div>
+        <div style="margin-top:1rem">
+          <div class="m-label" style="margin-bottom:6px">52週價格位置</div>
+          <div class="zone-bar-wrap"><div class="zone-dot" style="left:${zonePct}%"></div></div>
+          <div class="zone-ends"><span>低 $${f(lo52)}</span><span>${zonePct}%</span><span>高 $${f(hi52)}</span></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">多時間框架</div>
+        <div class="tf-grid">
+          <div class="tf-box ${tfClass(tfD_signal)}">
+            <div class="tf-label">日線</div>
+            <div class="tf-signal" style="color:${tfColor(tfD_signal)}">${tfArrow(tfD_signal)} ${tfD_signal}</div>
+            <div class="tf-rsi">RSI ${rsi_d||'—'}</div>
+            <div class="tf-rsi-num">${rsi_d||'—'}</div>
+          </div>
+          <div class="tf-box ${tfClass(tfW_signal)}">
+            <div class="tf-label">週線</div>
+            <div class="tf-signal" style="color:${tfColor(tfW_signal)}">${tfArrow(tfW_signal)} ${tfW_signal}</div>
+            <div class="tf-rsi">RSI ${rsi_w||'—'}</div>
+            <div class="tf-rsi-num">${rsi_w||'—'}</div>
+          </div>
+          <div class="tf-box ${tfClass(tfM_signal)}">
+            <div class="tf-label">月線</div>
+            <div class="tf-signal" style="color:${tfColor(tfM_signal)}">${tfArrow(tfM_signal)} ${tfM_signal}</div>
+            <div class="tf-rsi">RSI ${rsi_m||'—'}</div>
+            <div class="tf-rsi-num">${rsi_m||'—'}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">技術指標（日線）</div>
+        <div class="tech-grid">
+          <div class="tech-box">
+            <div class="tech-label">RSI</div>
+            <div class="tech-value">${rsi_d||'—'}</div>
+            <div class="rsi-bar-wrap"><div class="rsi-dot" style="left:${rsi_d||50}%"></div></div>
+            <div class="tech-signal"><span class="dot ${rsi_d&&rsi_d<35?'dot-green':rsi_d&&rsi_d>65?'dot-red':'dot-yellow'}"></span><span style="color:var(--text2);font-size:10px">${rsi_d&&rsi_d<35?'超賣':rsi_d&&rsi_d>65?'超買':'中性'}</span></div>
+          </div>
+          <div class="tech-box">
+            <div class="tech-label">MACD</div>
+            <div class="tech-value ${macd!=null?(macd>0?'pos':'neg'):''}">${macd!=null?macd.toFixed(3):'—'}</div>
+            <div class="tech-signal"><span class="dot ${macd!=null?(macd>0?'dot-green':'dot-red'):'dot-yellow'}"></span><span style="color:var(--text2);font-size:10px">${macd!=null?(macd>0?'多頭':'空頭'):'—'}</span></div>
+          </div>
+          <div class="tech-box">
+            <div class="tech-label">ADX</div>
+            <div class="tech-value">${adx_val!=null?adx_val.toFixed(1):'—'}</div>
+            <div class="tech-signal"><span class="dot ${adx_val!=null&&adx_val>25?'dot-green':'dot-yellow'}"></span><span style="color:var(--text2);font-size:10px">${adx_val!=null?(adx_val>35?'強趨勢':adx_val>25?'趨勢':'盤整'):'—'}</span></div>
+          </div>
+          <div class="tech-box">
+            <div class="tech-label">布林帶</div>
+            <div class="tech-value" style="font-size:14px">${bbPos}</div>
+            <div class="tech-signal"><span class="dot ${bbPos==='上半區'?'dot-green':bbPos==='下半區'?'dot-red':'dot-yellow'}"></span><span style="color:var(--text2);font-size:10px">${bbPos==='上半區'?'偏強':'偏弱'}</span></div>
+          </div>
+        </div>
+        <div style="margin-top:0.75rem;font-size:10px;color:var(--text3);font-family:var(--mono)">
+          今日區間 $${f(quote.l)} – $${f(quote.h)} ｜ 開盤 $${f(quote.o)}
+        </div>
       </div>
     </div>
 
-    <div class="grade-card">
-      <div class="grade-letter g${grade}">${grade}</div>
-      <div class="grade-details">
-        <div class="grade-title">綜合評級</div>
-        <div class="grade-row"><span class="${c1?'ck':'cx'}">${c1?'✓':'✗'}</span> 價格動能（52週 > 60%）— ${zonePct}%</div>
-        <div class="grade-row"><span class="${c2?'ck':'cx'}">${c2?'✓':'✗'}</span> RSI 健康區間（40–65）— ${rsi||'—'}</div>
-        <div class="grade-row"><span class="${c3?'ck':'cx'}">${c3?'✓':'✗'}</span> 營收成長 > 10% YoY — ${fP(revG)}</div>
-        <div class="grade-row"><span class="${c4?'ck':'cx'}">${c4?'✓':'✗'}</span> P/E 合理（< 40）— ${pe?pe.toFixed(1):'—'}</div>
-        <div class="grade-summary">${summaries[grade]}</div>
+    <!-- PAGE 2 -->
+    <div class="page" id="page-2">
+      <div class="report-header">
+        <div class="rh-left">
+          <h1>${t} <span style="font-size:16px;color:var(--text2)">${profile.name||''}</span></h1>
+          <div class="price-section" style="margin-top:0.5rem">
+            <span class="price-big">$${price.toFixed(2)}</span>
+            <span class="price-change ${isPos?'pos':'neg'}">${isPos?'+':''}${chg.toFixed(2)} (${isPos?'+':''}${chgP}%)</span>
+          </div>
+        </div>
+        <div class="rh-meta">
+          <div class="exchange">${new Date().toLocaleDateString('zh-TW')}</div>
+        </div>
+      </div>
+
+      ${sup1&&res1?`
+      <div class="section">
+        <div class="section-title">支撐 / 阻力位</div>
+        <div style="position:relative;padding:1rem 0 0.5rem">
+          ${res1>price?`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--red-bg);border-radius:5px;margin-bottom:6px">
+            <span style="font-size:11px;color:var(--red);font-family:var(--mono);font-weight:700">阻力</span>
+            <span style="font-size:16px;font-family:var(--mono);font-weight:700;color:var(--red)">$${res1}</span>
+            <span style="font-size:10px;color:var(--red)">+${(((res1-price)/price)*100).toFixed(1)}%</span>
+          </div>`:''}
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--purple-bg);border-radius:5px;margin-bottom:6px;border:1.5px solid #d4c6f5">
+            <span style="font-size:11px;color:var(--purple);font-family:var(--mono);font-weight:700">現價</span>
+            <span style="font-size:18px;font-family:var(--mono);font-weight:700;color:var(--purple)">$${price.toFixed(2)}</span>
+            <span style="font-size:10px;color:var(--purple)">—</span>
+          </div>
+          ${sup1<price?`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--green-bg);border-radius:5px;margin-bottom:6px">
+            <span style="font-size:11px;color:var(--green);font-family:var(--mono);font-weight:700">支撐</span>
+            <span style="font-size:16px;font-family:var(--mono);font-weight:700;color:var(--green)">$${sup1}</span>
+            <span style="font-size:10px;color:var(--green)">${(((sup1-price)/price)*100).toFixed(1)}%</span>
+          </div>`:''}
+          ${sup2<price?`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--green-bg);border-radius:5px">
+            <span style="font-size:11px;color:var(--green);font-family:var(--mono);font-weight:700">支撐2</span>
+            <span style="font-size:16px;font-family:var(--mono);font-weight:700;color:var(--green)">$${sup2}</span>
+            <span style="font-size:10px;color:var(--green)">${(((sup2-price)/price)*100).toFixed(1)}%</span>
+          </div>`:''}
+        </div>
+      </div>`:''}
+
+      <div class="section">
+        <div class="section-title">市場情緒</div>
+        <div class="sentiment-grid">
+          <div class="sentiment-box">
+            <div class="m-label">新聞情緒</div>
+            <div class="gauge-wrap">
+              <div class="gauge-num ${bullish_pct>=55?'pos':bullish_pct<45?'neg':''}">${bullish_pct}%</div>
+              <div class="gauge-label">看漲</div>
+            </div>
+            <div class="sentiment-bar-bg"><div class="sentiment-bar-fill" style="width:${bullish_pct}%;background:${bullish_pct>=55?'var(--green)':bullish_pct<45?'var(--red)':'var(--yellow)'}"></div></div>
+            <div class="sentiment-row"><span>新聞評分</span><span>${news_score}</span></div>
+            <div class="sentiment-row"><span>行業均值</span><span>0.50</span></div>
+          </div>
+          <div class="sentiment-box">
+            <div class="m-label">分析師評級</div>
+            <div class="gauge-wrap">
+              <div class="gauge-num ${buyPct>=60?'pos':buyPct<40?'neg':''}">${buyPct}%</div>
+              <div class="gauge-label">買入</div>
+            </div>
+            <div class="sentiment-bar-bg">
+              <div style="height:4px;border-radius:2px;display:flex;overflow:hidden">
+                <div style="width:${buyPct}%;background:var(--green)"></div>
+                <div style="width:${holdPct}%;background:var(--yellow)"></div>
+                <div style="width:${sellPct}%;background:var(--red)"></div>
+              </div>
+            </div>
+            <div class="sentiment-row"><span>買入 ${analystBuy}</span><span>持有 ${analystHold}</span><span>賣出 ${analystSell}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">分析師共識</div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:0.75rem">
+          <span style="font-size:10px;color:var(--text3);font-family:var(--mono)">目標價</span>
+          <span class="analyst-target">$${analystTarget?analystTarget.toFixed(2):'—'}</span>
+          ${upside?`<span class="analyst-upside">+${upside}%</span>`:''}
+          ${analystTotal>0?`<span class="tag tag-${recSignal==='Buy'?'buy':recSignal==='Sell'?'sell':'neutral'}">${recSignal}</span>`:''}
+        </div>
+        <div class="rating-bar">
+          <div class="rating-buy" style="width:${buyPct}%"></div>
+          <div class="rating-hold" style="width:${holdPct}%"></div>
+          <div class="rating-sell" style="width:${sellPct}%"></div>
+        </div>
+        <div class="rating-legend">
+          <span><span class="rating-dot" style="background:var(--green)"></span>買入 ${buyPct}%</span>
+          <span><span class="rating-dot" style="background:var(--yellow)"></span>持有 ${holdPct}%</span>
+          <span><span class="rating-dot" style="background:var(--red)"></span>賣出 ${sellPct}%</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">量價分析</div>
+        <div class="volume-grid">
+          <div class="metric-box">
+            <div class="m-label">平均成交量</div>
+            <div class="m-value" style="font-size:14px">${avgVol?(avgVol/1000000).toFixed(1)+'M':'—'}</div>
+          </div>
+          <div class="metric-box">
+            <div class="m-label">相對成交量</div>
+            <div class="m-value ${relVol&&relVol>1.2?'pos':relVol&&relVol<0.8?'neg':''}">${relVol||'—'}</div>
+            <div class="m-sub">${relVol&&relVol>1.2?'放量':relVol&&relVol<0.8?'縮量':'正常'}</div>
+          </div>
+          <div class="metric-box">
+            <div class="m-label">P/E 本益比</div>
+            <div class="m-value">${mx.peNormalizedAnnual?mx.peNormalizedAnnual.toFixed(1):'—'}</div>
+            <div class="m-sub">EPS $${f(mx.epsNormalizedAnnual)}</div>
+          </div>
+          <div class="metric-box">
+            <div class="m-label">營收成長 YoY</div>
+            <div class="m-value ${mx.revenueGrowthTTMYoy&&mx.revenueGrowthTTMYoy>0?'pos':'neg'}">${mx.revenueGrowthTTMYoy?(mx.revenueGrowthTTMYoy*100).toFixed(1)+'%':'—'}</div>
+            <div class="m-sub">毛利率 ${mx.grossMarginTTM?mx.grossMarginTTM.toFixed(1)+'%':'—'}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">FRED 總經背景</div>
+        <div class="macro-grid">
+          <div class="metric-box">
+            <div class="m-label">聯邦基金利率</div>
+            <div class="m-value">${fedRate!=null?fedRate.toFixed(2)+'%':'—'}</div>
+            <div class="m-sub">FEDFUNDS</div>
+          </div>
+          <div class="metric-box">
+            <div class="m-label">GDP 成長率</div>
+            <div class="m-value ${gdpGrowth!=null?(gdpGrowth>0?'pos':'neg'):''}">${gdpGrowth!=null?gdpGrowth.toFixed(1)+'%':'—'}</div>
+            <div class="m-sub">QoQ 年化</div>
+          </div>
+          <div class="metric-box">
+            <div class="m-label">Beta</div>
+            <div class="m-value">${f(mx.beta)}</div>
+            <div class="m-sub">市場敏感度</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div class="page" id="page-3">
+      <div class="report-header">
+        <div class="rh-left">
+          <h1>${t} <span style="font-size:16px;color:var(--text2)">${profile.name||''}</span></h1>
+          <div class="price-section" style="margin-top:0.5rem">
+            <span class="price-big">$${price.toFixed(2)}</span>
+            <span class="price-change ${isPos?'pos':'neg'}">${isPos?'+':''}${chg.toFixed(2)} (${isPos?'+':''}${chgP}%)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">交易策略</div>
+        <div class="strategy-grid">
+          <div class="strategy-card aggressive">
+            <div class="strategy-header">
+              <span class="strategy-name" style="color:var(--red)">激進策略</span>
+              <span class="buy-badge">BUY</span>
+            </div>
+            <div class="strategy-entry">入場區間</div>
+            <div class="strategy-price">$${aggressive_entry_lo} – $${aggressive_entry_hi}</div>
+            <div class="strategy-stop">止損</div>
+            <div class="strategy-stop-price">$${aggressive_stop}</div>
+            <div class="targets">
+              <div class="target-row"><span class="target-label">T1</span><span class="target-price">$${t1}</span><span style="font-size:10px;color:var(--text3);font-family:var(--mono)">R:R ${((t1-price)/(price-parseFloat(aggressive_stop))).toFixed(1)}:1</span></div>
+              <div class="target-row"><span class="target-label">T2</span><span class="target-price">$${t2}</span><span style="font-size:10px;color:var(--text3);font-family:var(--mono)">R:R ${((t2-price)/(price-parseFloat(aggressive_stop))).toFixed(1)}:1</span></div>
+              <div class="target-row"><span class="target-label">T3</span><span class="target-price">$${t3}</span><span style="font-size:10px;color:var(--text3);font-family:var(--mono)">R:R ${((t3-price)/(price-parseFloat(aggressive_stop))).toFixed(1)}:1</span></div>
+            </div>
+          </div>
+          <div class="strategy-card conservative">
+            <div class="strategy-header">
+              <span class="strategy-name" style="color:var(--blue)">保守策略</span>
+              <span class="buy-badge">BUY</span>
+            </div>
+            <div class="strategy-entry">入場區間</div>
+            <div class="strategy-price">$${conservative_entry_lo} – $${conservative_entry_hi}</div>
+            <div class="strategy-stop">止損</div>
+            <div class="strategy-stop-price">$${conservative_stop}</div>
+            <div class="targets">
+              <div class="target-row"><span class="target-label">T1</span><span class="target-price">$${t1}</span><span style="font-size:10px;color:var(--text3);font-family:var(--mono)">R:R ${((t1-price)/(price-parseFloat(conservative_stop))).toFixed(1)}:1</span></div>
+              <div class="target-row"><span class="target-label">T2</span><span class="target-price">$${t2}</span><span style="font-size:10px;color:var(--text3);font-family:var(--mono)">R:R ${((t2-price)/(price-parseFloat(conservative_stop))).toFixed(1)}:1</span></div>
+              <div class="target-row"><span class="target-label">T3</span><span class="target-price">$${t3}</span><span style="font-size:10px;color:var(--text3);font-family:var(--mono)">R:R ${((t3-price)/(price-parseFloat(conservative_stop))).toFixed(1)}:1</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="risk-banner">
+        <div class="risk-title">風險提示</div>
+        <div class="risk-text">${riskText}</div>
+      </div>
+
+      <div class="summary-banner">
+        <div class="summary-title">${grade==='A'?'強烈看多，等待回調布局':grade==='B'?'偏多，分批建倉':grade==='C'?'中性觀望，等待訊號確認':'謹慎，暫不追高'}</div>
+        <div class="summary-text">${summaryMap[grade]}</div>
+        <div style="margin-top:0.75rem;display:flex;gap:6px;flex-wrap:wrap">
+          <span style="font-size:10px;color:var(--text3);font-family:var(--mono)">評分構成：</span>
+          <span style="font-size:10px;font-family:var(--mono)">技術 ×70%</span>
+          <span style="font-size:10px;font-family:var(--mono)">FINRA ×15%</span>
+          <span style="font-size:10px;font-family:var(--mono)">情緒 ×15%</span>
+        </div>
       </div>
     </div>
     `;
+
   } catch(e) {
     out.innerHTML = `<div class="error-msg">錯誤：${e.message}</div>`;
   }
