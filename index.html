@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股分析工具</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --surface2: #1c1c27;
+  --border: #2a2a3d;
+  --accent: #7c6aff;
+  --accent2: #00d4aa;
+  --text: #e8e8f0;
+  --text2: #8888aa;
+  --text3: #555570;
+  --green: #00d4aa;
+  --red: #ff5c7a;
+  --yellow: #ffd166;
+  --mono: 'Space Mono', monospace;
+  --sans: 'Noto Sans TC', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* Header */
+.header {
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: rgba(10,10,15,0.95);
+  backdrop-filter: blur(12px);
+  z-index: 10;
+}
+.logo {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+.logo span { color: var(--text3); }
+.header-time {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+}
+
+/* Main */
+.main { padding: 1.5rem; max-width: 700px; margin: 0 auto; }
+
+/* Watchlist */
+.watchlist {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.wl-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 5px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.05em;
+}
+.wl-btn:hover, .wl-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(124,106,255,0.08);
+}
+
+/* Search */
+.search-wrap {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+.search-wrap input {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text);
+  text-transform: uppercase;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.search-wrap input:focus { border-color: var(--accent); }
+.search-wrap input::placeholder { color: var(--text3); text-transform: none; }
+.search-btn {
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  letter-spacing: 0.05em;
+}
+.search-btn:hover { opacity: 0.85; }
+.search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--text3);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+.loading::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 1rem auto 0;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Error */
+.error-msg {
+  background: rgba(255,92,122,0.1);
+  border: 1px solid rgba(255,92,122,0.3);
+  border-radius: 6px;
+  padding: 1rem;
+  color: var(--red);
+  font-size: 13px;
+}
+
+/* Price card */
+.price-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.ticker-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ticker-name h2 {
+  font-family: var(--mono);
+  font-size: 22px;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+.ticker-name p {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+.industry-badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text2);
+  font-family: var(--mono);
+  letter-spacing: 0.04em;
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+.price-big {
+  font-family: var(--mono);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+}
+.price-change {
+  font-family: var(--mono);
+  font-size: 14px;
+}
+.pos { color: var(--green); }
+.neg { color: var(--red); }
+
+/* Metrics grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 400px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.metric-box {
+  background: var(--surface2);
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+.metric-box .label {
+  font-size: 10px;
+  color: var(--text3);
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.metric-box .value {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.metric-box .sub {
+  font-size: 10px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+
+/* RSI badge */
+.rsi-buy { color: var(--green); }
+.rsi-sell { color: var(--red); }
+.rsi-neutral { color: var(--yellow); }
+
+/* Zone bar */
+.zone-section { margin-bottom: 0.5rem; }
+.zone-label {
+  font-size: 10px;
+  color: var(--text3);
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.zone-bar-wrap {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--green), var(--yellow), var(--red));
+  margin-bottom: 4px;
+}
+.zone-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.zone-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+
+/* Grade card */
+.grade-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease 0.1s both;
+}
+.grade-letter {
+  font-family: var(--mono);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 64px;
+  text-align: center;
+}
+.gA { color: var(--green); }
+.gB { color: var(--accent); }
+.gC { color: var(--yellow); }
+.gD { color: var(--red); }
+
+.grade-details { flex: 1; }
+.grade-title {
+  font-size: 10px;
+  color: var(--text3);
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.grade-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 6px;
+  font-family: var(--mono);
+}
+.ck { color: var(--green); }
+.cx { color: var(--red); }
+.grade-summary {
+  font-size: 12px;
+  color: var(--text2);
+  font-family: var(--sans);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem 1.5rem 3rem;
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+  letter-spacing: 0.04em;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">STOCK<span>/</span>ANALYZER</div>
+  <div class="header-time" id="clock"></div>
+</div>
+
+<div class="main">
+  <div class="watchlist" id="wl"></div>
+
+  <div class="search-wrap">
+    <input type="text" id="inp" placeholder="輸入股票代碼，例如 MU" maxlength="10" />
+    <button class="search-btn" id="btn" onclick="run()">查詢</button>
+  </div>
+
+  <div id="out"></div>
+</div>
+
+<div class="footer">數據來源：Finnhub｜僅供參考，非投資建議</div>
+
+<script>
+const FK = 'd74eq5pr01qno4q1g9lgd74eq5pr01qno4q1g9m0';
+const STOCKS = ['MU','RKLB','GOOGL','NVDA','AAPL','TSLA'];
+
+// Clock
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toLocaleTimeString('zh-TW', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// Watchlist
+const wl = document.getElementById('wl');
+STOCKS.forEach(s => {
+  const b = document.createElement('button');
+  b.className = 'wl-btn';
+  b.textContent = s;
+  b.onclick = () => {
+    document.querySelectorAll('.wl-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById('inp').value = s;
+    run();
+  };
+  wl.appendChild(b);
+});
+
+document.getElementById('inp').addEventListener('keydown', e => { if (e.key === 'Enter') run(); });
+
+async function run() {
+  const t = document.getElementById('inp').value.trim().toUpperCase();
+  if (!t) return;
+  const out = document.getElementById('out');
+  const btn = document.getElementById('btn');
+  btn.disabled = true;
+  out.innerHTML = '<div class="loading">LOADING DATA</div>';
+
+  try {
+    const [q, p, m, c] = await Promise.all([
+      fetch(`https://finnhub.io/api/v1/quote?symbol=${t}&token=${FK}`).then(r => r.json()),
+      fetch(`https://finnhub.io/api/v1/stock/profile2?symbol=${t}&token=${FK}`).then(r => r.json()),
+      fetch(`https://finnhub.io/api/v1/stock/metric?symbol=${t}&metric=all&token=${FK}`).then(r => r.json()),
+      fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${t}&resolution=D&count=60&token=${FK}`).then(r => r.json())
+    ]);
+
+    if (!q || q.c === 0) {
+      out.innerHTML = '<div class="error-msg">找不到此股票代碼，請確認後再試。</div>';
+      btn.disabled = false; return;
+    }
+
+    const price = q.c, chg = q.c - q.pc;
+    const chgP = ((chg / q.pc) * 100).toFixed(2);
+    const isPos = chg >= 0;
+    const mx = m.metric || {};
+    const pe = mx.peNormalizedAnnual, eps = mx.epsNormalizedAnnual;
+    const hi = mx['52WeekHigh'], lo = mx['52WeekLow'];
+    const revG = mx.revenueGrowthTTMYoy, gm = mx.grossMarginTTM, beta = mx.beta;
+    const mktcap = p.marketCapitalization;
+
+    // RSI
+    let rsi = null;
+    if (c && c.c && c.c.length >= 15) {
+      const cl = c.c; let g = 0, l = 0;
+      for (let i = cl.length - 14; i < cl.length; i++) {
+        const d = cl[i] - cl[i-1];
+        if (d > 0) g += d; else l += Math.abs(d);
+      }
+      const ag = g/14, al = l/14;
+      rsi = al === 0 ? 100 : Math.round(100 - (100 / (1 + ag/al)));
+    }
+
+    // Zone
+    let zonePct = 50;
+    if (hi && lo) zonePct = Math.min(100, Math.max(0, Math.round(((price-lo)/(hi-lo))*100)));
+
+    // Grade
+    const c1 = zonePct > 60;
+    const c2 = rsi != null && rsi >= 40 && rsi <= 65;
+    const c3 = revG != null && revG * 100 > 10;
+    const c4 = pe != null && pe < 40;
+    const score = [c1,c2,c3,c4].filter(Boolean).length;
+    const grade = ['D','D','C','B','A'][score];
+    const summaries = {
+      A: '四項指標全面達標，動能、估值與成長均健康，整體體質強健。',
+      B: '三項指標達標，具備持有或觀察條件，可留意風險控管。',
+      C: '僅兩項指標達標，建議謹慎評估後再行動，關注後續催化劑。',
+      D: '多項指標未達標，目前風險偏高，建議持續觀察等待機會。'
+    };
+
+    const f = v => v != null ? v.toFixed(2) : '—';
+    const fP = v => v != null ? (v*100).toFixed(1)+'%' : '—';
+    const rsiLabel = rsi == null ? '—' : rsi < 35 ? '超賣' : rsi > 65 ? '超買' : '中性';
+    const rsiClass = rsi == null ? '' : rsi < 35 ? 'rsi-buy' : rsi > 65 ? 'rsi-sell' : 'rsi-neutral';
+
+    out.innerHTML = `
+    <div class="price-card">
+      <div class="ticker-row">
+        <div class="ticker-name">
+          <h2>${t}</h2>
+          <p>${p.name || '—'}</p>
+        </div>
+        <span class="industry-badge">${p.finnhubIndustry || '—'}</span>
+      </div>
+      <div class="price-row">
+        <span class="price-big">$${price.toFixed(2)}</span>
+        <span class="price-change ${isPos?'pos':'neg'}">${isPos?'+':''}${chg.toFixed(2)} (${isPos?'+':''}${chgP}%)</span>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-box">
+          <div class="label">RSI 14日</div>
+          <div class="value ${rsiClass}">${rsi || '—'}</div>
+          <div class="sub">${rsiLabel}</div>
+        </div>
+        <div class="metric-box">
+          <div class="label">P/E 本益比</div>
+          <div class="value">${pe ? pe.toFixed(1) : '—'}</div>
+          <div class="sub">EPS $${f(eps)}</div>
+        </div>
+        <div class="metric-box">
+          <div class="label">市值</div>
+          <div class="value">${mktcap ? (mktcap/1000).toFixed(1)+'B' : '—'}</div>
+          <div class="sub">Beta ${f(beta)}</div>
+        </div>
+        <div class="metric-box">
+          <div class="label">營收成長 YoY</div>
+          <div class="value">${fP(revG)}</div>
+          <div class="sub">毛利率 ${gm ? gm.toFixed(1)+'%' : '—'}</div>
+        </div>
+        <div class="metric-box">
+          <div class="label">今日區間</div>
+          <div class="value" style="font-size:13px">$${f(q.l)}–$${f(q.h)}</div>
+          <div class="sub">開盤 $${f(q.o)}</div>
+        </div>
+        <div class="metric-box">
+          <div class="label">52週區間</div>
+          <div class="value" style="font-size:13px">$${f(lo)}–$${f(hi)}</div>
+          <div class="sub">位置 ${zonePct}%</div>
+        </div>
+      </div>
+      <div class="zone-section">
+        <div class="zone-label">52週價格位置</div>
+        <div class="zone-bar-wrap">
+          <div class="zone-dot" style="left:${zonePct}%"></div>
+        </div>
+        <div class="zone-ends"><span>低 $${f(lo)}</span><span>${zonePct}%</span><span>高 $${f(hi)}</span></div>
+      </div>
+    </div>
+
+    <div class="grade-card">
+      <div class="grade-letter g${grade}">${grade}</div>
+      <div class="grade-details">
+        <div class="grade-title">綜合評級</div>
+        <div class="grade-row"><span class="${c1?'ck':'cx'}">${c1?'✓':'✗'}</span> 價格動能（52週 > 60%）— ${zonePct}%</div>
+        <div class="grade-row"><span class="${c2?'ck':'cx'}">${c2?'✓':'✗'}</span> RSI 健康區間（40–65）— ${rsi||'—'}</div>
+        <div class="grade-row"><span class="${c3?'ck':'cx'}">${c3?'✓':'✗'}</span> 營收成長 > 10% YoY — ${fP(revG)}</div>
+        <div class="grade-row"><span class="${c4?'ck':'cx'}">${c4?'✓':'✗'}</span> P/E 合理（< 40）— ${pe?pe.toFixed(1):'—'}</div>
+        <div class="grade-summary">${summaries[grade]}</div>
+      </div>
+    </div>
+    `;
+  } catch(e) {
+    out.innerHTML = `<div class="error-msg">錯誤：${e.message}</div>`;
+  }
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>
